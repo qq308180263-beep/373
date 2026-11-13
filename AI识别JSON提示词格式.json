@@ -1,0 +1,56 @@
+{
+  "type": "object",
+  "properties": {
+    "visual_inspection_notes": {
+      "type": "string",
+      "description": "逐行记录从游戏UI截图中看到的装备颜色（暗金/绿色/橙色/符文之语）、底材名称、灰色半透明无形特征及具体属性数值。"
+    },
+    "game_mode": { "type": "string", "enum": ["天梯软核", "天梯专家", "非天梯软核", "非天梯专家", "未知"] },
+    "extracted_asset": {
+      "type": "object",
+      "properties": {
+        "standard_name": { "type": "string" },
+        "base_item_name": { "type": "string", "description": "底材名称，如'执政官铠甲'、'巨长斧'" },
+        "is_ethereal": { "type": "boolean" },
+        "sockets": { "type": "integer", "minimum": 0, "maximum": 6 },
+        "variable_stats": {
+          "type": "object",
+          "description": "核心浮动属性字典，如 {'增强伤害_ED': 198, '全抗': 28, '战斗指挥_BO': 6}"
+        },
+        "perfection_rating": { "type": "string", "enum": ["普通变量", "准极品变量", "满变极品"] },
+        "attached_currencies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "currency_type": { "type": "string" },
+              "quantity": { "type": "integer" }
+            }
+          }
+        }
+      },
+      "required": ["standard_name", "is_ethereal", "perfection_rating"]
+    },
+    "generated_listing_copy": {
+      "type": "object",
+      "properties": {
+        "dd373_seo_title": {
+          "type": "string",
+          "maxLength": 45,
+          "description": "符合DD373搜索习惯的爆款标题，包含区服、标准名、黑话别名、核心变量及安全秒发字样。"
+        },
+        "dd373_description": {
+          "type": "string",
+          "description": "条理清晰的商品详情介绍，分点列出核心属性、变量明细、交易方式与售后保障。"
+        }
+      },
+      "required": ["dd373_seo_title", "dd373_description"]
+    },
+    "requires_manual_review": {
+      "type": "boolean",
+      "description": "若图片模糊看不清数字、出现跨截图逻辑矛盾，或识别为满变极品，必须设为 true 拦截人工确认。"
+    },
+    "confidence_score": { "type": "integer", "minimum": 0, "maximum": 100 }
+  },
+  "required": ["visual_inspection_notes", "game_mode", "extracted_asset", "generated_listing_copy", "requires_manual_review", "confidence_score"]
+}
